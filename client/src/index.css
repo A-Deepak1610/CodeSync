@@ -1,0 +1,25 @@
+@import "tailwindcss";
+*{
+  font-family: "Roboto", sans-serif;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
