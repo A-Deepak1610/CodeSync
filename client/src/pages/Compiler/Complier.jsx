@@ -2,18 +2,19 @@ import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Editor from "@monaco-editor/react";
 import Output from "../../store/CodeOutput";
+import {io} from "socket.io-client";
+import User from "../../store/User";
 export default function Complier() {
   const [code, setCode] = useState(`#include <stdio.h>
         int main() {
             printf("Hello, World!");
             return 0;
         }`);
-  const {output, handleOutput,handeleTime,time,input,handleInput,code_input,handelCodeInput} = Output();
+  const {handleOutput,handeleTime,input,handleInput,handelCodeInput} = Output();
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState("c");
-  useEffect(() => {
-    handelCodeInput(code);
-  }, [code]);
+  const {roomId0}=User();
+
   function handleLanguage(e) {
     setLanguage(e.target.value);
     handleOutput("");
@@ -92,27 +93,32 @@ export default function Complier() {
       }
       setLoading(false);
       handleInput("");
-      // if (data.token) {
-      //   // Step 2: Fetch the output
-      //   const resultUrl = `https://judge0-ce.p.rapidapi.com/submissions/${data.token}`;
-      //   const resultResponse = await fetch(resultUrl, {
-      //     method: "GET",
-      //     headers: {
-      //       "x-rapidapi-key": apiKey,
-      //       "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
-      //     },
-      //   });
-      //   if (!resultResponse.ok) {
-      //     throw new Error(`Result fetch failed: ${resultResponse.status}`);
-      //   }
-      //   const resultData = await resultResponse.json();
-      //   console.log("Execution Output:", resultData.stdout);
-      // }
     } catch (error) {
       console.error("Error running code:", error);
     }
   };
+  // const socket = io("http://localhost:7000", {
+  //     transports: ["websocket"],
+  //     autoConnect: false,
+  //   });
+  //   useEffect(() => {
+  //     socket.connect();
+  //     socket.on("receive-code", (code) => {
+  //       console.log("Received code from server:", code);
+  //     });
+  //     return () => {
+  //       socket.disconnect();
+  //     };
+  //   }, []);
 
+    // useEffect(() => {
+    //   console.log("Code changed:", code);
+    //   handelCodeInput(code);
+    //   socket.emit("send-code", {
+    //     roomId: roomId0, 
+    //     code: code,
+    //   });
+    // }, [code]);
   return (
     <div className="w-[47%] bg-[#2d2f34]">
       <div className="w-[100%] bg-[#1c2130] border-r border-gray-500 h-[50px] flex items-center justify-between">

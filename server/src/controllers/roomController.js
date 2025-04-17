@@ -1,15 +1,13 @@
-// src/controllers/roomController.js
 const db = require('../config/db');
-
-exports.createRoom = (req, res) => {
+exports.createRoom = (req, res) =>{
   const { roomId, roomPassword, roomName } = req.body;
   const query = `INSERT INTO login (roomid, room_password, roomname) VALUES (?, ?, ?)`;
   db.query(query, [roomId, roomPassword, roomName], (err, result) => {
     if (err) {
       console.log(err);
-      return res.status(500).json({ err: 'Failed to create room' });
+      return res.status(500).json({ err: 'Failed to create room'});
     }
-    res.status(200).json({ message: 'Room created successfully' });
+    res.status(200).json({ message: 'Room created successfully'});
   });
 };
 exports.fetchLogin = (req, res) => {
@@ -22,3 +20,14 @@ exports.fetchLogin = (req, res) => {
     res.status(200).json({ data: result });
   });
 };
+exports.deleteRoom=(req,res)=>{
+  const { roomId } = req.query;
+  const query = `DELETE FROM login WHERE roomid = ?`;
+  db.query(query, [roomId], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ err: 'Failed to delete room' });
+    }
+    res.status(200).json({ message: 'Room deleted successfully' });
+  });
+}

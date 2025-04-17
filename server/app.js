@@ -1,4 +1,3 @@
-// app.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -7,6 +6,7 @@ const roomRoutes = require('./src/routes/roomRoutes');
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-// Routes
-app.use('/api/room', roomRoutes); // Prefix all routes with /api/room
+
+
+app.use('/api/room', roomRoutes);
 module.exports = app;

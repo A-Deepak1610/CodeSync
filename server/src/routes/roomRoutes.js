@@ -1,9 +1,12 @@
-// src/routes/roomRoutes.js
 const express = require('express');
 const router = express.Router();
 const roomController = require('../controllers/roomController');
-
+const participantsController = require('../controllers/participantsController');
 router.post('/create', roomController.createRoom);
-router.get('/fetch-login', roomController.fetchLogin);
-
+router.get('/login', roomController.fetchLogin);
+router.post('/createPariticipants', participantsController.createPariticipants);
+router.get('/fetchParticipants', participantsController.fetchParticipants);
+router.delete('/deteleParticipants', participantsController.deteleParticipants);
+router.delete('/deteleParticipantsAll', participantsController.deteleParticipantsAll);
+router.delete('/deleteRoom', roomController.deleteRoom);
 module.exports = router;

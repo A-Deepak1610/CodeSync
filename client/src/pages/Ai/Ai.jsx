@@ -36,6 +36,7 @@ export default function Ai() {
     const data = await response.json();
     setLoading(false);
     setPrompt("");
+    console.log(data)
     const rawResponse = data.choices[0].message.content;
     const formattedResponse = rawResponse
       .replace(/\*\*(.*?)\*\*/g, "**$1**") // Keep bold formatting
