@@ -4,7 +4,7 @@ import Chat from "../../pages/Chat/Chat";
 export default function ChatAiNav() {
   const [chatai, setChatAi] = useState("chat");
   return (
-    <div className='w-[23%] h-[91.8vh] bg-[#2d2f34] text-[white] ">'>
+    <div className='w-[23%]  bg-[#2d2f34] text-[white] ">'>
       <div className="w-[100%] bg-[#1c2130]  h-[50px] flex items-center justify-between border-l border-gray-500">
         <h1
           className="text-[18px] text-white ml-[10px] cursor-pointer "

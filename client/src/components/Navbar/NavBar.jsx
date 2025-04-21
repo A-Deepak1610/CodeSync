@@ -14,11 +14,11 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { io } from 'socket.io-client';
 import Output from "../../store/CodeOutput";
+import socket from "../../sockets/socket";
 export default function NavBar() {
-  const{code_input}=Output();
-  const { username0, roomId0, roomPassword0} = User();
+  const { code_input } = Output();
+  const { username0, roomId0, roomPassword0,setIsHost0 ,isHost0} = User();
   const [hostName, setHostName] = useState("");
   const navigate = useNavigate();
   const { roomid } = useParams();
@@ -52,38 +52,34 @@ export default function NavBar() {
   const [participantsName, setParticipantsName] = useState([]);
   const [ishost, setIsHost] = useState(false);
 
-
-  const socket = io("http://localhost:7000", {
-    transports: ["websocket"],
-    autoConnect: false,
-  });
   useEffect(() => {
-    socket.connect();
+    if (!socket.connected) socket.connect();
     socket.emit("join-room", { roomId: roomId0, username: username0 });
-    socket.on("room-ended", () => {
-      localStorage.removeItem(`room-${roomid}-auth`, "ture");
-      alert("Room is closed by host");
-      console.log("Room is closed by host");
-      navigate("/login");
-    });
-    // socket.on("connected",(socketId) => {
-    //   handleParticipants();
-    // });
-    return () => {
-      socket.disconnect();
-    };
-  }, [roomId0, username0, socket, navigate]);
-
-  const handleLogout = () => {
-    if(ishost){
-      socket.emit("host-end-room", { roomId: roomId0 });
-      handelEndRoom();//delets room and participants
-      setEndRoom(true);
+    socket.on("handle-participants",()=>{
+      handleParticipants();
+    })
+    if (!ishost) {
+      socket.on("room-ended", () => {
+        localStorage.removeItem(`room-${roomId0}-auth`);
+        alert("Room is closed by host");
+        console.log("alert:Room is closed by host");
+        navigate("/login");
+      });
+      
     }
-    else{
-    handleDeleteParticipants(username0);
-    localStorage.removeItem(`room-${roomid}-auth`, "ture");
-    navigate("/login");
+    return () => {
+      socket.off("room-ended");
+    };
+  }, [roomId0, username0, socket, navigate, ishost]);
+  const handleLogout = () => {
+    if (ishost) {
+      socket.emit("host-end-room", { roomId: roomId0 });
+      handelEndRoom();  //delets room and participants
+      setEndRoom(true);
+    } else {
+      handleDeleteParticipants(username0);
+      localStorage.removeItem(`room-${roomid}-auth`, "ture");
+      navigate("/login");
     }
   };
   const handleParticipants = async () => {
@@ -95,20 +91,23 @@ export default function NavBar() {
           headers: { "Content-Type": "application/json" },
         }
       );
-      if (!res.ok) throw new Error("HTTP Error");
+      if (!res.ok) 
+        throw new Error("HTTP Error");
       const data = await res.json();
       const transformed = data.data.map((item) => ({
         [item.pname]: item.ptype,
       }));
-      for(let i=0;i<data.data.length;i++){
-        if(data.data[i].ptype==="host"){
+      for (let i = 0; i < data.data.length; i++) {
+        if (data.data[i].ptype === "host") {
           setHostName(data.data[i].pname);
-          let hostname=data.data[i].pname;
-          if(username0===hostname){
+          let hostname = data.data[i].pname;
+          if (username0 === hostname){
             setIsHost(true);
+            setIsHost0(true);
           }
         }
-      } 
+      }
+      // setIsHost(false);
       setParticipantsName(transformed);
       setParticipants(data.data);
       // console.log("Participants:", data);
@@ -131,7 +130,7 @@ export default function NavBar() {
       console.error("Fetch Error in Participants:", error);
     }
   };
-  const handelEndRoom=async()=>{
+  const handelEndRoom = async () => {
     try {
       const res = await fetch(
         `http://localhost:7000/api/room/deleteRoom?roomId=${roomId0}`,
@@ -148,8 +147,8 @@ export default function NavBar() {
     } catch (error) {
       console.error("Fetch Error in Participants:", error);
     }
-  }
-  const handleDeleteParticipantsAll=async()=>{
+  };
+  const handleDeleteParticipantsAll = async () => {
     try {
       const res = await fetch(
         `http://localhost:7000/api/room/deteleParticipantsAll?roomid=${roomId0}`,
@@ -163,7 +162,7 @@ export default function NavBar() {
     } catch (error) {
       console.error("Fetch Error in Participants:", error);
     }
-  }
+  };
   useEffect(() => {
     handleParticipants();
   }, [roomId0]);
@@ -178,7 +177,7 @@ export default function NavBar() {
   const id2 = open2 ? "simple-popover" : undefined;
   return (
     <>
-      <div className="flex items-center bg-[#6c5ce7] w-[100%] h-15 justify-between text-white">
+      <div className="flex items-center  bg-[#6c5ce7] w-[100%] h-[56px] justify-between text-white">
         <Dialog
           open={openDialog}
           onClose={handleCloseDiaglog}
@@ -204,7 +203,7 @@ export default function NavBar() {
           </DialogTitle>
           <DialogContent>
             <Typography id="alert-dialog-description">
-              Are you sure you want to {ishost?"end":"leave"} this room?
+              Are you sure you want to {ishost ? "end" : "leave"} this room?
             </Typography>
           </DialogContent>
           <DialogActions sx={{ justifyContent: "flex-end", mt: 2 }}>
@@ -226,7 +225,7 @@ export default function NavBar() {
                 "&:hover": { backgroundColor: "#dc2626" },
               }}
             >
-              {ishost?"End Room":"Leave Room"}
+              {ishost ? "End Room" : "Leave Room"}
             </Button>
           </DialogActions>
         </Dialog>
@@ -318,16 +317,16 @@ export default function NavBar() {
                 horizontal: "right",
               }}
               slotProps={{
-                paper:{
-                sx: {
-                  backgroundColor: "#1f2937",
-                  color: "white",
-                  borderRadius: "12px",
-                  boxShadow: 4,
-                  mt: 1,
-                  minWidth: "180px",
+                paper: {
+                  sx: {
+                    backgroundColor: "#1f2937",
+                    color: "white",
+                    borderRadius: "12px",
+                    boxShadow: 4,
+                    mt: 1,
+                    minWidth: "180px",
+                  },
                 },
-              }
               }}
             >
               <div className="flex flex-col p-4 space-y-2">
@@ -350,7 +349,7 @@ export default function NavBar() {
                     "&:hover": { backgroundColor: "rgba(239, 68, 68, 0.2)" },
                   }}
                 >
-                  {ishost?"End Room":"Leave Room"}
+                  {ishost ? "End Room" : "Leave Room"}
                 </Button>
               </div>
             </Popover>
@@ -368,16 +367,16 @@ export default function NavBar() {
                 horizontal: "right",
               }}
               slotProps={{
-                paper:{
-                onMouseLeave: handleClose1,
-                sx: {
-                  backgroundColor: "#1f2937",
-                  color: "white",
-                  borderRadius: "12px",
-                  boxShadow: 4,
-                  p: 2,
+                paper: {
+                  onMouseLeave: handleClose1,
+                  sx: {
+                    backgroundColor: "#1f2937",
+                    color: "white",
+                    borderRadius: "12px",
+                    boxShadow: 4,
+                    p: 2,
+                  },
                 },
-              }
               }}
             >
               <div className="flex flex-col border-none">
@@ -396,7 +395,7 @@ export default function NavBar() {
           <h1 className="mr-[30px] text-[20px]">{username0} </h1>
         </div>
       </div>
-      <div className="flex text-white h-[90vh] mainarea">
+      <div className="flex text-white h-[92.2vh] mainarea">
         <Complier />
         <Output_Comp />
         <ChatAiNav />

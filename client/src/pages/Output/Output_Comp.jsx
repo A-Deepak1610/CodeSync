@@ -9,7 +9,7 @@ export default function Output_Comp() {
   };
 
   return (
-    <div className="w-[30%] h-[91.8vh] bg-[#0d1117] flex flex-col">
+    <div className="w-[30%]  bg-[#0d1117] flex flex-col">
       {/* Header */}
       <div className="w-full bg-[#1c2130] h-[50px] border-b border-gray-700 flex items-center px-4">
         <h1 className="text-lg text-white font-semibold">Output</h1>
@@ -21,7 +21,7 @@ export default function Output_Comp() {
         <textarea
           value={input}
           onChange={handleInputChange}
-          className="w-full h-[60px] p-2 rounded-md bg-[#2d2f3c] text-white border border-[#444] focus:ring-2 focus:ring-[#4c8bf5] outline-none resize-none"
+          className="w-full h-[60px] p-2 scrollbar-hide rounded-md bg-[#2d2f3c] text-white border border-[#444] focus:ring-2 focus:ring-[#4c8bf5] outline-none resize-none"
           placeholder="Enter input here... (optional)"
         />
       </div>

@@ -13,6 +13,8 @@ const User = create(persist((set) => ({
     setRoomName0: (roomName0) => set({ roomName0:roomName0 }),
     hostName: null,
     setHostName: (hostName) => set({ hostName:hostName }),
+    isHost0: false,
+    setIsHost0: (isHost0) => set({ isHost0:isHost0 }),
 }),
 {name:"login_storage"},
 ));
