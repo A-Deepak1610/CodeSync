@@ -107,7 +107,7 @@ export default function NavBar() {
           }
         }
       }
-      // setIsHost(false);
+      // s  etIsHost(false);
       setParticipantsName(transformed);
       setParticipants(data.data);
       // console.log("Participants:", data);
@@ -177,6 +177,7 @@ export default function NavBar() {
   const id2 = open2 ? "simple-popover" : undefined;
   return (
     <>
+    <div className="h-[100vh]  bg-[#2d3436] flex flex-col">
       <div className="flex items-center  bg-[#6c5ce7] w-[100%] h-[56px] justify-between text-white">
         <Dialog
           open={openDialog}
@@ -395,10 +396,11 @@ export default function NavBar() {
           <h1 className="mr-[30px] text-[20px]">{username0} </h1>
         </div>
       </div>
-      <div className="flex text-white h-[92.2vh] mainarea">
+      <div className="flex text-white mainarea">
         <Complier />
         <Output_Comp />
         <ChatAiNav />
+      </div>
       </div>
     </>
   );

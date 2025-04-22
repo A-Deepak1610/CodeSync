@@ -261,7 +261,6 @@ export default function Complier() {
           value={code}
           onChange={(newCode) => handleCodeChange(newCode)}
         />
-
         {/* Floating Request Access or Info */}
         <div className="absolute top-3 right-4 z-10">
           {!editAcess ? (

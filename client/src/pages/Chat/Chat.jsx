@@ -13,6 +13,7 @@ export default function Chat() {
     if (!socket.connected) socket.connect();
     socket.emit("join-room", { roomId: roomId0, username: username0 });
     socket.on("receive-message", (data) => {
+      setNodata(false);
       // console.log("Received message from server:", data);
       const newMsg = {
         id: Date.now(),
