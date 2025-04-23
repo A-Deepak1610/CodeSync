@@ -16,7 +16,7 @@ export default function Ai() {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer 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`,
+          Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
