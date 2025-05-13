@@ -21,7 +21,6 @@ export default function Complier() {
   const [language, setLanguage] = useState("c");
   const { roomId0, username0, isHost0 } = User();
   const [editAcess, setEditAcess] = useState(isHost0);
-  // console.log("edit access", editAcess);
   const fromSocketRef = useRef(false);
 
   function handleLanguage(e) {
@@ -63,7 +62,7 @@ export default function Complier() {
       languageId = 71;
     }
     const apiUrl = "https://judge0-ce.p.rapidapi.com/submissions?wait=true";
-    const apiKey = "80c4ae2854mshb541b4b08f012b4p11ed44jsn2eb37449970b";
+    const apiKey = `${import.meta.env.VITE_JUDGE0_API_KEY}`;
     const requestData = {
       source_code: code,
       language_id: languageId,
