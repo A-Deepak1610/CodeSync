@@ -7,6 +7,5 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-
 app.use('/api/room', roomRoutes);
 module.exports = app;

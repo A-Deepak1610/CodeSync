@@ -10,7 +10,7 @@ export default function () {
     <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login/>}/>
-        <Route path="/:roomid" element={<NavBar/>}/>
+        <Route path="/:roomid"  element={<ProtectedRoute><NavBar /></ProtectedRoute> }/>
         <Route path="/create-room" element={<CreateRoom/>}/>
         <Route path="/404" element={<NotFound/>}/>
         <Route path="*" element={<Navigate to ="/404"/>}/>
