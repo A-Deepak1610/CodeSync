@@ -9,7 +9,7 @@ A real-time collaborative code editor where users can join rooms, edit code toge
 - 🧑‍🤝‍🧑 **Collaborative Code Editing** (Monaco Editor powered)  
 - 🔒 **Edit Access Request System**  
 - 🧠 **Real-Time Typing Indicators**  
-- 🧑‍💻 **Live Cursor + Username like Google Docs**  
+- 🧑‍💻 **Live Code Update + Username like Google Docs**  
 - 🖥️ **Multi-language Code Execution** (C, C++, Python, Java, JavaScript)  
 
 
