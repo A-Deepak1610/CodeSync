@@ -22,7 +22,7 @@ A real-time collaborative code editor where users can join rooms, edit code toge
 - **Frontend:** React, Tailwind CSS, Monaco Editor 
 - **Backend:** Node.js, Express, Socket.IO
 - **Compiler:** Judge0
-- **Others:** Zustand, WebRTC (for audio), Material-UI (for dialogs)
+- **Others:** Zustand, Material-UI (for dialogs)
 
 ---
 
