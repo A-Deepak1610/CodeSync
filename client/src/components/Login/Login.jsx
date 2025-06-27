@@ -16,7 +16,7 @@ export default function Login() {
       return;
     }
     try {
-      const res = await fetch("http://localhost:7000/api/room/login", {
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/room/login`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -48,7 +48,7 @@ export default function Login() {
   }
   const handleParticipants=async()=>{
     try{
-      const res=await fetch("http://localhost:7000/api/room/createPariticipants",{
+      const res=await fetch(`${import.meta.env.VITE_APP_API_URL}/room/createPariticipants`,{
         method:"POST",                              
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({

@@ -14,7 +14,7 @@ export default function CreateRoom() {
   const [hostName, setHostName] = useState("");
   const generateRoomId = async()=>{
     try {
-      const res = await fetch("http://localhost:7000/api/room/login", {
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/room/login`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -41,7 +41,7 @@ export default function CreateRoom() {
     }
     const roomid = roomId.split(":")[1];
     try{
-      const res = await fetch("http://localhost:7000/api/room/create", {
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/room/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },  
         body: JSON.stringify({
@@ -68,7 +68,7 @@ export default function CreateRoom() {
   };
   const handleParticipants=async()=>{
     try{
-      const res=await fetch("http://localhost:7000/api/room/createPariticipants",{
+      const res=await fetch(`${import.meta.env.VITE_APP_API_URL}/room/createPariticipants`,{
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({

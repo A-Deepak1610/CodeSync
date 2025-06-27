@@ -85,7 +85,7 @@ export default function NavBar() {
   const handleParticipants = async () => {
     try {
       const res = await fetch(
-        `http://localhost:7000/api/room/fetchParticipants?roomId=${roomId0}`,
+        `${import.meta.env.VITE_APP_API_URL}/room/fetchParticipants?roomId=${roomId0}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -118,7 +118,7 @@ export default function NavBar() {
   const handleDeleteParticipants = async (pname) => {
     try {
       const res = await fetch(
-        `http://localhost:7000/api/room/deteleParticipants?pname=${pname}`,
+        `${import.meta.env.VITE_APP_API_URL}/room/deteleParticipants?pname=${pname}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -133,7 +133,7 @@ export default function NavBar() {
   const handelEndRoom = async () => {
     try {
       const res = await fetch(
-        `http://localhost:7000/api/room/deleteRoom?roomId=${roomId0}`,
+        `${import.meta.env.VITE_APP_API_URL}/room/deleteRoom?roomId=${roomId0}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
@@ -151,7 +151,8 @@ export default function NavBar() {
   const handleDeleteParticipantsAll = async () => {
     try {
       const res = await fetch(
-        `http://localhost:7000/api/room/deteleParticipantsAll?roomid=${roomId0}`,
+        `${import.meta.env.VITE_APP_API_URL}
+        /room/deteleParticipantsAll?roomid=${roomId0}`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },

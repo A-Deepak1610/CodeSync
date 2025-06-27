@@ -35,9 +35,22 @@ export default function Chat() {
 
   const handleSend = () => {
     if (!newMessage.trim()) return;
-    setNodata(false);
+    // setNodata(false);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        id: Date.now(),
+        sender: username0,
+        text: newMessage,
+        time: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      },
+    ]);
+    setNewMessage("");
     handelUpdateMessages();
-    socket.emit("send-message", {
+    socket.emit("send-message",{
       roomId: roomId0,
       username: username0,
       message: newMessage,
@@ -45,7 +58,7 @@ export default function Chat() {
   };
   const handelUpdateMessages = async () => {
     try {
-      const res = await fetch("http://localhost:7000/api/room/createMessage", {
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/room/createMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -71,7 +84,7 @@ export default function Chat() {
   const fetchMessages = async () => {
     try {
       const res = await fetch(
-        `http://localhost:7000/api/room/fetchMessages?roomId=${roomId0}`,
+        `${import.meta.env.VITE_APP_API_URL}/room/fetchMessages?roomId=${roomId0}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
